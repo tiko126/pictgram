@@ -8,7 +8,8 @@ class CommentsController < ApplicationController
       comment_params
       #text: params[:comments][:text],
       #topic_id: params[:comments][:topic_id])
-
+    )
+    
     if @comment.save
       redirect_to topics_path, success: 'コメントを保存しました'
     else
