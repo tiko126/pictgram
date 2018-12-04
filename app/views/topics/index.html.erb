@@ -1,0 +1,43 @@
+<div class="topic-index-wrapper">
+  <div class="container">
+    <% @topics.each do |topic| %>
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <div class="topic-index-single">
+            <h2 class="topic-author">
+              <%= topic.user.name %>
+            </h2>
+            <%= image_tag topic.image.url %>
+            <% if !topic.favorite_users.include?(current_user) %>
+              <%= link_to favorites_path(topic_id: topic.id), method: :post do%>
+                <%= image_tag 'icons/heart-black.png', class: 'topic-index-icon' %>
+              <% end %>
+              <%= topic.favorites.count %>
+            <% else %>
+              <%= link_to favorites_path(topic_id: topic.id), method: :delete do%>
+                <%= image_tag 'icons/heart-red.png', class: 'topic-index-icon' %>
+              <% end %>
+              <%= topic.favorites.count %>
+            <% end %>
+
+            <%= link_to new_comment_path(topic_id: topic.id) do %>
+              <%= image_tag 'icons/comment.png', class: 'topic-index-icon' %>
+            <% end %>
+
+            <p class="topic-text">
+              <%= topic.description %>
+            </p><br>
+
+            <h3 class="topic-text">コメント</h3>
+            <% @comments = Comment.where(topic_id: topic.id) %>
+            <% @comments.each do |comment| %>
+              <p class="topic-text">
+                <%= comment.text %>
+              </p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
